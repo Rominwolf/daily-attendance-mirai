@@ -26,7 +26,7 @@
 - [ ] 用户打卡属性设定
 - [ ] 群打卡属性设定
 - [ ] 获取指定打卡类型的用户排行榜
-- [ ] 生涯任务与奖章系统（参与制作奖章：https://shimo.im/forms/jYhr9JKVR3hR6rj3/fill）
+- [ ] 生涯任务与奖章系统（参与制作奖章：https://shimo.im/forms/jYhr9JKVR3hR6rj3/fill ）
 - [x] 积分系统
 - [x] 自诊断修复功能
 - [ ] 补签功能
