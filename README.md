@@ -39,14 +39,18 @@
 为了确保能够正常使用，请仔细阅读安装须知。
 
 1. 将 Release 渠道下的 `ink.wsm.mirai.daily_attendance_v2.plugin.zip` 压缩包文件解压至 `<你的 Mirai 根目录>\config\` 目录下。
-2. *（可选）*将 `general.yml` 配置文件的配置数据进行自由修改。
-3. *（可选）*如果开启了**运动打卡**请确保已成功在动态数据文件 `<你的 Mirai 根目录>\data\ink.wsm.mirai.daily_attendance_v2.plugin\global.yml` 中设定了机器人的**
+2. （可选）将 `general.yml` 配置文件的配置数据进行自由修改。
+3. （可选）如果开启了**运动打卡**请确保已成功在动态数据文件 `<你的 Mirai 根目录>\data\ink.wsm.mirai.daily_attendance_v2.plugin\global.yml` 中设定了机器人的**
    QQ空间**的 `bkn` & `cookies`。路径为 `bot.bkn` & `bot.cookies`。
 4. 将应用本体文件放入 `<你的 Mirai 根目录>\plugins\` 目录下并重启 Mirai 即可使用。
 
 ## 命令
 
 使用 `/da` 命令即可查看本应用支持的所有二级命令。
+
+## 特别鸣谢
+
+感谢所有支持**雪球**的同志们！:P
 
 ## 支持开发者
 
