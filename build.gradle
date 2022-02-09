@@ -1,0 +1,26 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.5.10'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.5.10'
+
+    id 'net.mamoe.mirai-console' version '2.9.2'
+}
+
+group = 'ink.wsm.mirai.daily_attendance_v2'
+version = '2.0.0'
+
+repositories {
+    maven { url 'https://maven.aliyun.com/repository/public/' }
+    maven { url 'https://jitpack.io' }
+    google()
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'me.carleslc.Simple-YAML:Simple-Yaml:1.7.2'
+    implementation 'com.alibaba:fastjson:1.2.79'
+    implementation 'org.apache.commons:commons-text:1.9'
+    implementation 'com.github.edolganov:props4j:1.0'
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
+    implementation 'commons-io:commons-io:2.6'
+}
