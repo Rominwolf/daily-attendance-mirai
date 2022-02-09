@@ -1,7 +1,7 @@
 # 每日打卡 Daily Attendance
 > 一款基于 Mirai 框架的 QQ 机器人插件，其灵感来源于市面上常见的“早起打卡”，但该插件支持更多功能。
 
-该插件基于 Mirai 框架开发，请确保您机器人使用的是Mirai(https://github.com/mamoe/mirai)。  
+该插件基于 Mirai 框架开发，请确保您机器人使用的是 [Mirai]([https://github.com/mamoe/mirai]) 框架。
 
 ## 许可证声明与须知
 本插件以 **GNU AGPLv3** 协议开源，也请您在使用或二次创作时遵守此协议。  
@@ -36,7 +36,7 @@
 
 ## 安装
 
-为了确保能够正常使用，请仔细阅读安装须知。
+为了确保能够正常使用，请**仔细**阅读安装须知。
 
 1. 将 Release 渠道下的 `ink.wsm.mirai.daily_attendance_v2.plugin.zip` 压缩包文件解压至 `<你的 Mirai 根目录>\config\` 目录下。
 2. （可选）将 `general.yml` 配置文件的配置数据进行自由修改。
