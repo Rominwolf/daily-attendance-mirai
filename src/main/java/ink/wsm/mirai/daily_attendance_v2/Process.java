@@ -1,5 +1,6 @@
 package ink.wsm.mirai.daily_attendance_v2;
 
+import ink.wsm.mirai.daily_attendance_v2.cores.Remind;
 import ink.wsm.mirai.daily_attendance_v2.cores.S;
 import ink.wsm.mirai.daily_attendance_v2.cores.Transfer;
 import ink.wsm.mirai.daily_attendance_v2.cores.attendances.Attendance;
@@ -85,6 +86,10 @@ public class Process {
         if (message.startsWith(S.Command.put))
             return sendPut();
 
+        //关于本应用
+        if (message.startsWith(S.Command.about))
+            return sendAbout();
+
         // ---------- 打卡相关 ----------
 
         //参与快速打卡
@@ -108,16 +113,16 @@ public class Process {
             return sendAttendance("run");
 
         //晚安打卡状态分析
-        analyzingSleepStatus();
+        analyzingSleepStatus("talk");
 
         return null;
     }
 
     private Object testing() {
-        Run.timerProcessCheck();
+        //Run.timerProcessCheck();
         //Run.output(mirai, event);
         //Attendance.processAttendanceTimer("sleep");
-        //Remind.processTimer("nap");
+        Remind.processTimer("nap");
 //        Nap nap = new Nap(mirai, event);
 //        nap.rollTheAward().forEach(Mirai::newLog);
         return null;
@@ -135,6 +140,14 @@ public class Process {
         if (isGroup) result += S.get("menu.put");
 
         return mirai.sendMessage(result);
+    }
+
+    /**
+     * 发送关于本应用
+     */
+    private Object sendAbout() {
+        mirai.sendMessage(S.get("about"));
+        return true;
     }
 
     /**
@@ -256,10 +269,12 @@ public class Process {
 
     /**
      * 分析晚安打卡的状态
+     *
+     * @param activeType 活跃类型（talk, recall, nudge）
      */
-    private void analyzingSleepStatus() {
+    public void analyzingSleepStatus(String activeType) {
         Sleep sleep = new Sleep(mirai, event);
-        mirai.sendMessage(sleep.checkSleepTalking());
+        mirai.sendMessage(sleep.checkSleepTalking(activeType));
     }
 
     /**

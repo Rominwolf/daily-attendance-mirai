@@ -89,6 +89,9 @@ public class Run {
             long targetId = Smart.objectToLong(sportData.get("uin"));
             User user = new User(targetId);
 
+            //如果用户已关闭自动运动打卡检测则跳过此个
+            if (user.isClosed(type)) continue;
+
             long todayId = Smart.getTodayId();
             long lastSeenDate = user.getLastSeenDate(type);
 
@@ -109,6 +112,9 @@ public class Run {
 
             //更新用户打卡数据
             Attendance.updateUserData(targetId, type);
+
+            //更新全局打卡信息
+            Attendance.updateGlobalData(targetId, type, 0);
 
             String newTop = "";
             long stepMax = user.getStep().get("max");

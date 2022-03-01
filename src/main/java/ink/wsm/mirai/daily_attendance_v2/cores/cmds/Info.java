@@ -125,14 +125,19 @@ public class Info {
         String[] types = new String[]{"wake", "nap", "sleep", "run"};
         for (String type : types) {
             String shortTime = Smart.getShortTime(userTarget.getLastSeenTime(type));
+
             boolean isRemindOn = userTarget.isRemindOn(type);
+            boolean isClosed = userTarget.isClosed(type);
+
             long total = userTarget.getTotal(type);
             long totalMonth = userTarget.getHistoryTotalAtMonth(type, year, month);
             long totalContinuous = userTarget.getHistoryContinuousTotalInThisMonth(type);
 
             String remind = S.get("system.turn" + (isRemindOn ? "On" : "Off"));
+            String check = S.get("system.turn" + (isClosed ? "Off" : "On"));
 
             data.put(type + "_remind", remind);
+            data.put(type + "_check", check);
             data.put(type + "_short", shortTime);
             data.put(type + "_total", total);
             data.put(type + "_total_month", totalMonth);

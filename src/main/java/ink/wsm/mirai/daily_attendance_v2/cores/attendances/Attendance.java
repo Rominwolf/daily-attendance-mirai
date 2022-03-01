@@ -204,7 +204,7 @@ public class Attendance {
      * @param score  增加的凭证数量
      * @return 返回 Map：pool(当前奖池的凭证数量)
      */
-    public Map<String, Object> updateGlobalData(long fromId, String type, int score) {
+    public static Map<String, Object> updateGlobalData(long fromId, String type, int score) {
         long todayId = Smart.getTodayId();
         Global global = new Global();
         Map<String, Object> result = new HashMap<>();

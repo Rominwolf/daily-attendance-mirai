@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'ink.wsm.mirai.daily_attendance_v2'
-version = '2.0.0'
+version = '2.22.02'
 
 repositories {
     maven { url 'https://maven.aliyun.com/repository/public/' }

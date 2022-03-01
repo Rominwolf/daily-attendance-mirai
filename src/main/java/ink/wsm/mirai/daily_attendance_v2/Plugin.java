@@ -13,7 +13,7 @@ public final class Plugin extends JavaPlugin {
     public static final Plugin INSTANCE = new Plugin();
 
     private Plugin() {
-        super(new JvmPluginDescriptionBuilder("ink.wsm.mirai.daily_attendance_v2.plugin", "2.0.0")
+        super(new JvmPluginDescriptionBuilder("ink.wsm.mirai.daily_attendance_v2.plugin", "2.22")
                 .name("Daily Attendance 2")
                 .info("The plugin of the Daily Attendance version 2.")
                 .author("Rominwolf")

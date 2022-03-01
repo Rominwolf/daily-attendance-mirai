@@ -49,8 +49,10 @@ public class Sleep {
     /**
      * 检查用户参与晚安打卡的状态，并返回相应结果
      * 如果参与了打卡则检测是否使用了蜡烛或发言次数
+     *
+     * @param activeType 活跃类型（talk, nudge, recall...）
      */
-    public String checkSleepTalking() {
+    public String checkSleepTalking(String activeType) {
         boolean isJoined = user.isJoinedSleep();
 
         //如果没有参与晚安打卡则返回
@@ -69,6 +71,7 @@ public class Sleep {
         //如果发言次数小于 3 次则返回警告字符串
         if (talkTimes < 3)
             return S.get(type + ".talkingWarn")
+                    .replace("{active}", S.get("system.active." + activeType))
                     .replace("{times}", (3 - talkTimes) + "");
 
         //否则打卡失败：已加入标记为false、删除全局打卡列表中目标用户

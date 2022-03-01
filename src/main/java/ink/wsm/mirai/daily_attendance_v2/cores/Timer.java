@@ -5,6 +5,7 @@ import ink.wsm.mirai.daily_attendance_v2.cores.attendances.Run;
 import ink.wsm.mirai.daily_attendance_v2.cores.data.General;
 import ink.wsm.mirai.daily_attendance_v2.utils.Mirai;
 import ink.wsm.mirai.daily_attendance_v2.utils.Smart;
+import ink.wsm.mirai.daily_attendance_v2.utils.Yamler;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -29,6 +30,7 @@ public class Timer {
                 settle(hour);
                 remind(hour);
                 runCheck(hour);
+                globalListToNone(hour);
 
             } catch (Exception e) {
                 Mirai.sendMessageToOwner(S.Owner.TimerError,
@@ -41,8 +43,8 @@ public class Timer {
      * 常规打卡结算
      */
     public static void settle(int hour) {
-        //允许的提醒打卡类型
-        String[] types = new String[]{"wake", "nap", "sleep"};
+        //允许的打卡类型
+        String[] types = new String[]{"wake", "sleep"};
 
         //如果当前小时等于目标打卡开启时间则：
         for (String type : types) {
@@ -63,10 +65,11 @@ public class Timer {
 
         //如果当前小时等于目标打卡开启时间则：
         for (String type : types) {
+            long start = General.getLong(type + General.Field.start);
             long end = General.getLong(type + General.Field.end);
 
-            //发送需要提醒的打卡列表（当前小时是目标打卡结束小时的前一个小时）
-            if (hour == end - 1)
+            //发送需要提醒的打卡列表（当前小时在开始和结束打卡的时间内）
+            if (hour >= start && hour < end)
                 Remind.processTimer(type);
         }
     }
@@ -81,4 +84,27 @@ public class Timer {
         if (hour == check)
             Run.timerProcessCheck();
     }
+
+    /**
+     * 常规打卡全局打卡用户列表清空
+     */
+    public static void globalListToNone(int hour) {
+        //仅限每天0点重置
+        if (hour != 0) return;
+
+        //允许的打卡类型
+        String[] types = new String[]{"nap", "run"};
+
+        for (String type : types) {
+            Yamler global = S.Data.globalYaml;
+
+            //增加 global 字段
+            String fieldPool = type + S.Global.Field.pool;
+            String fieldList = type + S.Global.Field.list;
+
+            global.set(fieldPool, 0);
+            global.set(fieldList, "");
+        }
+    }
+
 }

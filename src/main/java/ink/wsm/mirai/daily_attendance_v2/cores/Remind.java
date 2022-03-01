@@ -6,6 +6,7 @@ import ink.wsm.mirai.daily_attendance_v2.utils.Mirai;
 import ink.wsm.mirai.daily_attendance_v2.utils.Smart;
 import net.mamoe.mirai.Bot;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.RandomUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +31,7 @@ public class Remind {
     }
 
     /**
-     * 处理指定打卡类型的开启打卡提醒的列表的消息的发送（私聊版）
+     * 处理指定打卡类型的开启打卡提醒的列表的消息的发送
      *
      * @param type    打卡类型
      * @param isGroup 是否为群聊模式
@@ -38,25 +39,61 @@ public class Remind {
     private static void processTimerInner(String type, boolean isGroup) {
         Bot bot = Mirai.getBot();
         List<Long> lists = getListAboutRemindOn(type, isGroup);
+        Mirai mirai = new Mirai(bot, 0, 0, null);
 
         String name = S.get(type + ".name");
         String cmd = getAttendanceCommand(type);
 
-        String fieldRemindType = isGroup ? "group" : "private";
-
-        String result = S.get("remind." + fieldRemindType + ".msg")
-                .replace("{type}", name)
-                .replace("{cmd}", cmd);
-
         for (long targetId : lists) {
-            Mirai mirai = new Mirai(bot, 0, 0, null);
+            String result = getRandomRemindString(isGroup)
+                    .replace("{type}", name)
+                    .replace("{cmd}", cmd);
+
+            //进行变量的替换
+            result = varsReplace(result, type, mirai, isGroup);
 
             //如果为群聊则更新 fromGroup 否则更新 fromId
-            if (isGroup) mirai.fromGroup = targetId;
-            else mirai.fromId = targetId;
+            if (isGroup) {
+                mirai.fromId = 0;
+                mirai.fromGroup = targetId;
+            } else {
+                mirai.fromGroup = 0;
+                mirai.fromId = targetId;
+            }
 
             mirai.sendMessage(result);
         }
+    }
+
+    /**
+     * 进行变量替换
+     *
+     * @param content 文案内容
+     * @param type    打卡类型
+     * @param mirai   Mirai
+     * @param isGroup 是否为群聊
+     * @return 返回替换后的文案
+     */
+    private static String varsReplace(String content, String type, Mirai mirai, boolean isGroup) {
+        long targetId = mirai.fromId;
+        if (isGroup) targetId = mirai.fromGroup;
+
+        //替换为用户昵称，群聊下为空
+        String nick = "";
+        if (!isGroup) nick = mirai.getUserNicknameFromGroup(targetId, targetId);
+        content = content.replace("{nick}", nick);
+
+        //替换为用户累计打卡的次数，群聊下为0
+        long total = 0;
+        if (!isGroup) total = new User(targetId).getTotal(type);
+        content = content.replace("{total}", total + "");
+
+        //替换为用户连续打卡的次数，群聊下为0
+        long cont = 0;
+        if (!isGroup) cont = new User(targetId).getHistoryContinuousTotalInThisMonth(type);
+        content = content.replace("{cont}", cont + "");
+
+        return content;
     }
 
     /**
@@ -121,5 +158,18 @@ public class Remind {
         }
 
         return result;
+    }
+
+    /**
+     * 获得指定打卡类型的指定条件的一条随机提醒打卡的字符串
+     *
+     * @param isGroup 是否为群聊
+     * @return 返回随机提醒消息（默认：""，需要自行替换{type}, {cmd}, {nick}）
+     */
+    private static String getRandomRemindString(boolean isGroup) {
+        String from = isGroup ? "group" : "private";
+        List<?> contents = S.getList("remind." + from + ".list");
+        int index = RandomUtils.nextInt(0, contents.size());
+        return contents.get(index) + "";
     }
 }

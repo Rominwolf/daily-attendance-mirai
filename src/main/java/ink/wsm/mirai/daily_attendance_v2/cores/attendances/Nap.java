@@ -97,6 +97,9 @@ public class Nap {
         //更新用户的打卡信息
         Attendance.updateUserData(fromId, type);
 
+        //更新全局的打卡信息
+        Attendance.updateGlobalData(fromId, type, 0);
+
         //如果奖励id为凭证则给予用户凭证
         if (awardId.equals("score"))
             user.updateScore(awardAmount);

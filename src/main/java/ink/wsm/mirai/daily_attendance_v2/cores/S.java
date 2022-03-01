@@ -35,6 +35,7 @@ public class S {
         public static String rank = main + " rank";
         public static String use = main + " use";
         public static String exch = main + " exch";
+        public static String about = main + " about";
         public static String set = main + " set";
         public static String put = main + " put";
 

@@ -61,6 +61,10 @@ public class UserSet {
         if (type.equals("remind"))
             return remind();
 
+        //类型为运动打卡检测：
+        if (type.equals("run"))
+            return runCheck();
+
         //没有进入到任意类型则返回菜单
         return S.get("set.menu");
     }
@@ -98,5 +102,36 @@ public class UserSet {
         return S.get("set.successRemind" + (status ? "On" : "Off"))
                 .replace("{type}", S.get(type + ".name"))
                 .replace("{hour}", (end - 1) + "");
+    }
+
+    /**
+     * 处理运动打卡的数据，返回结果字符串
+     */
+    private String runCheck() {
+        String[] commands = message.split(" ");
+
+        //如果命令长度不为 4 则返回菜单
+        if (commands.length != 4)
+            return S.get("set.menu");
+
+        //转小写
+        message = message.toLowerCase(Locale.ROOT);
+
+        String type = "run";
+        String statusText = commands[3];
+
+        //如果状态无效则返回
+        if (!"on,off".contains(statusText))
+            return S.get("set.failUnknownStatus");
+
+        //status 为 true 则表示开启检测，否则关闭检测；isClosed 为 true 表示关闭检测，否则开启检测
+        boolean status = statusText.equals("on");
+        boolean isClosed = !status;
+
+        //提交更改
+        user.setValue(type + User.Field.isClosed, isClosed);
+
+        return S.get("set.successRunCheck" + (status ? "On" : "Off"))
+                .replace("{type}", S.get(type + ".name"));
     }
 }

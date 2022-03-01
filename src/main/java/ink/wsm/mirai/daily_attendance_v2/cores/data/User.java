@@ -26,7 +26,9 @@ public class User {
         public static String history = ".history";
         public static String totalTalk = ".total_talk";
         public static String remindStatus = ".remind.status";
+
         public static String isJoined = ".is_joined";
+        public static String isClosed = ".is_closed";
 
         public static String use = "use.";
 
@@ -101,6 +103,16 @@ public class User {
      */
     public boolean isJoined(String type) {
         return user.getBoolean(type + Field.isJoined);
+    }
+
+    /**
+     * 用户是否已关闭自动打卡检测（is_closed 字段为真表示关闭）
+     *
+     * @param type 打卡类型（如：run）
+     * @return 返回真假（默认：假）
+     */
+    public boolean isClosed(String type) {
+        return user.getBoolean(type + Field.isClosed);
     }
 
     /**
