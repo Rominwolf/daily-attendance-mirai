@@ -1,0 +1,66 @@
+score: 0 #凭证
+is_transferred: false #是否已进行数据转移
+
+# 道具相关
+candle: 0 #夜光蜡烛的个数
+rocker: 0 #筹码摇杆的个数
+dice: 0 #翻倍骰子的个数
+paper: 0 #空白纸张的个数
+lucky: 0 #好运风铃的个数
+
+# 道具使用相关
+use:
+  candle: false #是否已使用夜光蜡烛
+  dice: false #是否已使用翻倍骰子
+
+# 早起相关
+wake:
+  remind:
+    status: false #是否开启每日打卡提醒
+  last_seen_date: 20220111 #最后打卡日期ID
+  last_seen_time: "2022-01-11 12:21:12" #最后打卡时间
+  total: 22 #累计参与打卡次数
+  history: #打卡历史（year.month.day: True / 只标记真）
+    '2022':
+      '01':
+        '01': true
+
+# 午睡相关
+nap:
+  remind:
+    status: false #是否开启每日打卡提醒
+  last_seen_date: 20220111 #最后打卡日期ID
+  last_seen_time: "2022-01-11 12:21:12" #最后打卡时间
+  total: 22 #累计参与打卡次数
+  history: #打卡历史（year.month.day: True / 只标记真）
+    '2022':
+      '01':
+        '01': true
+
+# 晚安相关
+sleep:
+  remind:
+    status: false #是否开启每日打卡提醒
+  is_joined: false #是否已参与晚安打卡
+  last_seen_date: 20220111 #最后打卡日期ID
+  last_seen_time: "2022-01-11 12:21:12" #最后打卡时间
+  total: 22 #累计参与打卡次数
+  total_talk: 0 #当日参与晚安打卡后的发言次数
+  history: #打卡历史（year.month.day: True / 只标记真）
+    '2022':
+      '01':
+        '01': true
+
+# 跑步相关
+run:
+  is_closed: false #是否关闭自动跑步打卡检测
+  step: #步数信息
+    max: 15241 #历史上最多步数
+    last: 1513 #上一次的步数
+  last_seen_date: 20220111 #最后打卡日期ID
+  last_seen_time: "2022-01-11 12:21:12" #最后打卡时间
+  total: 22 #累计参与打卡次数
+  history: #打卡历史（year.month.day: True / 只标记真）
+    '2022':
+      '01':
+        '01': true
