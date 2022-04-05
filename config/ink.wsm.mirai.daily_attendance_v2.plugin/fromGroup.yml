@@ -1,0 +1,14 @@
+# 早起相关
+wake:
+  remind:
+    status: false #是否开启每日打卡提醒
+
+# 午睡相关
+nap:
+  remind:
+    status: false #是否开启每日打卡提醒
+
+# 晚安相关
+sleep:
+  remind:
+    status: false #是否开启每日打卡提醒
