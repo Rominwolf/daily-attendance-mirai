@@ -32,17 +32,17 @@
 - [x] 每日打卡提醒
 - [x] 获取用户打卡排行榜
 - [x] 道具系统
-- [x] 旧版数据转移系统
+- [x] 控制台命令
 
 ## 安装
 
 为了确保能够正常使用，请**仔细**阅读安装须知。
 
-1. 将 Release 渠道下的 `ink.wsm.mirai.daily_attendance_v2.plugin.zip` 压缩包文件解压至 `<你的 Mirai 根目录>\config\` 目录下。
-2. （可选）将 `general.yml` 配置文件的配置数据进行自由修改。
-3. （可选）如果开启了**运动打卡**请确保已成功在动态数据文件 `<你的 Mirai 根目录>\data\ink.wsm.mirai.daily_attendance_v2.plugin\global.yml` 中设定了机器人的**
+1. 将 Release 渠道下的应用本体文件放入 `<你的 Mirai 根目录>/plugins/` 目录下。
+2. 将文件 `config/ink.wsm.mirai.daily_attendance_v2.plugin/general.yml` 和目录 `config/ink.wsm.mirai.daily_attendance_v2.plugin/languages` 放入你的 `<你的 Mirai 根目录>/config/ink.wsm.mirai.daily_attendance_v2.plugin` 目录下。
+3. （可选）自由编辑和修改 `general.yml` 配置文件的配置数据。
+4. （可选）如果开启了**运动打卡**请确保已成功在动态数据文件 `<你的 Mirai 根目录>/data/ink.wsm.mirai.daily_attendance_v2.plugin/global.yml` 中设定了机器人**
    QQ空间**的 `bkn` & `cookies`。路径为 `bot.bkn` & `bot.cookies`。
-4. 将应用本体文件放入 `<你的 Mirai 根目录>\plugins\` 目录下并重启 Mirai 即可使用。
 
 ## 命令
 
@@ -64,6 +64,22 @@
 同上，但二级命令需要变更为 group，即 user -> group。
 
 具体键值请查阅 fromGroup.yml 文件。
+
+## 疑难解答
+**Q. 第三方资金是否有数额查询入口？**
+A. 本应用查询不了第三方资金的数额，需要使用相对应的应用来查询（可以使用任意金融类插件）。
+
+本应用的货币“凭证”是保存到了应用内，然后如果需要购买道具的话，还是得调用第三方资金（如商店插件）应用……
+
+可以通过控制台命令「da user <目标QQ> <实体ID> <+/-的数量>」来修改用户的实体（如凭证、道具等）数量。
+
+**Q. 道具只能随机获取吗？**
+A. 是的，普通用户目前应用只能通过打卡来获取。
+
+**Q. 有什么方法能只启用早起打卡，其它的打卡功能不开启吗？**
+A. 对于“午睡打卡”和“晚安打卡”，目前没有一个特定的选项可以关闭，但是您可以在配置文件中调整其打卡的“开始时间”和“结束时间”到同一个小时来实现该功能（如开始时间和结束时间均为0点）。
+
+然后对于“运动打卡”，在配置文件中关闭即可（将 run.status 置为 false）。
 
 ## 特别鸣谢
 
