@@ -6,6 +6,7 @@ import ink.wsm.mirai.daily_attendance_v2.cores.data.General;
 import ink.wsm.mirai.daily_attendance_v2.utils.Mirai;
 import ink.wsm.mirai.daily_attendance_v2.utils.Smart;
 import ink.wsm.mirai.daily_attendance_v2.utils.Yamler;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -23,13 +24,15 @@ public class Timer {
         executorService.scheduleAtFixedRate(() -> {
             try {
                 int minute = Smart.getMinute();
-                if (minute != 0) return;
-
                 int hour = Smart.getHour();
+
+                runCheck(hour, minute);
+
+                //每小时检测
+                if (minute != 0) return;
 
                 settle(hour);
                 remind(hour);
-                runCheck(hour);
                 globalListToNone(hour);
 
             } catch (Exception e) {
@@ -68,21 +71,32 @@ public class Timer {
             long start = General.getLong(type + General.Field.start);
             long end = General.getLong(type + General.Field.end);
 
-            //发送需要提醒的打卡列表（当前小时在开始和结束打卡的时间内）
+            //发送需要提醒的打卡列表（私聊 | 开始和结束打卡的时间内）
             if (hour >= start && hour < end)
-                Remind.processTimer(type);
+                Remind.processTimer(type, false);
+
+            //发送需要提醒的打卡列表（群聊 | 结束打卡前一个小时）
+            if (hour == end - 1)
+                Remind.processTimer(type, true);
         }
     }
 
     /**
      * 运动打卡步数检测
      */
-    public static void runCheck(int hour) {
-        long check = General.getLong("run" + General.Field.check);
+    public static void runCheck(int hour, int minute) {
+        String check = General.getString("run" + General.Field.check);
+        int checkHour = Integer.parseInt(StringUtils.substringBefore(check, ":"));
+        int checkMinute = Integer.parseInt(StringUtils.substringAfterLast(check, ":"));
 
-        //如果当前时间等于运动打卡检测时间则进行步数检测
-        if (hour == check)
-            Run.timerProcessCheck();
+        //如果不在检测的小时则返回
+        if (checkHour != hour) return;
+
+        //如果不在检测的分钟则返回
+        if (checkMinute != minute) return;
+
+        //进行步数检测
+        Run.timerProcessCheck();
     }
 
     /**

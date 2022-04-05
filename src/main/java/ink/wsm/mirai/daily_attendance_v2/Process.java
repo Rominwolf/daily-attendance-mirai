@@ -1,8 +1,6 @@
 package ink.wsm.mirai.daily_attendance_v2;
 
-import ink.wsm.mirai.daily_attendance_v2.cores.Remind;
 import ink.wsm.mirai.daily_attendance_v2.cores.S;
-import ink.wsm.mirai.daily_attendance_v2.cores.Transfer;
 import ink.wsm.mirai.daily_attendance_v2.cores.attendances.Attendance;
 import ink.wsm.mirai.daily_attendance_v2.cores.attendances.Nap;
 import ink.wsm.mirai.daily_attendance_v2.cores.attendances.Run;
@@ -55,6 +53,9 @@ public class Process {
         //testing
         if (message.equals(S.Command.testing))
             return testing();
+
+        //晚安打卡状态分析
+        analyzingSleepStatus("talk");
 
         // ---------- 命令相关 ----------
 
@@ -112,9 +113,6 @@ public class Process {
         if (message.equals(S.Command.run))
             return sendAttendance("run");
 
-        //晚安打卡状态分析
-        analyzingSleepStatus("talk");
-
         return null;
     }
 
@@ -122,7 +120,7 @@ public class Process {
         //Run.timerProcessCheck();
         //Run.output(mirai, event);
         //Attendance.processAttendanceTimer("sleep");
-        Remind.processTimer("nap");
+        //Remind.processTimer("nap");
 //        Nap nap = new Nap(mirai, event);
 //        nap.rollTheAward().forEach(Mirai::newLog);
         return null;
@@ -132,8 +130,6 @@ public class Process {
      * 发送应用菜单
      */
     private Object sendMenu() {
-        transferTheData();
-
         String result = S.get("menu.main");
 
         //群聊模式则增加 put 命令
@@ -154,8 +150,6 @@ public class Process {
      * 发送用户信息菜单
      */
     private Object sendInfo() {
-        transferTheData();
-
         Info info = new Info(mirai, event);
         info.process();
 
@@ -166,8 +160,6 @@ public class Process {
      * 发送用户使用道具菜单
      */
     private Object sendUse() {
-        transferTheData();
-
         Use use = new Use(mirai, event);
         return mirai.sendMessage(use.process());
     }
@@ -176,8 +168,6 @@ public class Process {
      * 发送用户兑换菜单
      */
     private Object sendExch() {
-        transferTheData();
-
         Exchange exchange = new Exchange(mirai, event);
         exchange.process();
         return true;
@@ -187,8 +177,6 @@ public class Process {
      * 发送排行榜菜单
      */
     private Object sendRank() {
-        transferTheData();
-
         Rank rank = new Rank(mirai, event);
         return mirai.sendMessage(rank.process());
     }
@@ -197,8 +185,6 @@ public class Process {
      * 发送用户设定菜单
      */
     private Object sendSet() {
-        transferTheData();
-
         UserSet userSet = new UserSet(mirai, event);
         return mirai.sendMessage(userSet.process());
     }
@@ -207,8 +193,6 @@ public class Process {
      * 发送群设定菜单
      */
     private Object sendPut() {
-        transferTheData();
-
         GroupPut groupPut = new GroupPut(mirai, event);
         return mirai.sendMessage(groupPut.process());
     }
@@ -219,8 +203,6 @@ public class Process {
      * @param type 打卡类型
      */
     private Object sendAttendance(String type) {
-        transferTheData();
-
         //如果打卡类型为午睡打卡则单独处理
         if (type.equals("nap")) {
             Nap nap = new Nap(mirai, event);
@@ -245,8 +227,6 @@ public class Process {
      * 发送打卡参与结果（自动判定时间）
      */
     private Object sendAttendanceAuto() {
-        transferTheData();
-
         int hour = Smart.getHour();
 
         String[] types = new String[]{"wake", "nap", "sleep"};
@@ -269,19 +249,12 @@ public class Process {
 
     /**
      * 分析晚安打卡的状态
-     *
      * @param activeType 活跃类型（talk, recall, nudge）
      */
     public void analyzingSleepStatus(String activeType) {
         Sleep sleep = new Sleep(mirai, event);
-        mirai.sendMessage(sleep.checkSleepTalking(activeType));
-    }
-
-    /**
-     * 进行用户数据的转移
-     */
-    private void transferTheData() {
-        Transfer transfer = new Transfer(mirai, event);
-        transfer.process();
+        String result = sleep.checkSleepTalking(activeType);
+        mirai.sendMessage(result);
+//        return result.equals("");
     }
 }

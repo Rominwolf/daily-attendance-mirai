@@ -20,14 +20,13 @@ public class Remind {
      *
      * @param type 打卡类型
      */
-    public static void processTimer(String type) {
+    public static void processTimer(String type, boolean isGroup) {
         Bot bot = Mirai.getBot();
 
         //如果当前没有 bot 则返回
         if (bot == null) return;
 
-        processTimerInner(type, false);
-        processTimerInner(type, true);
+        processTimerInner(type, isGroup);
     }
 
     /**
@@ -41,6 +40,7 @@ public class Remind {
         List<Long> lists = getListAboutRemindOn(type, isGroup);
         Mirai mirai = new Mirai(bot, 0, 0, null);
 
+        String botName = mirai.getUserNickname(bot.getId());
         String name = S.get(type + ".name");
         String cmd = getAttendanceCommand(type);
 
@@ -48,9 +48,6 @@ public class Remind {
             String result = getRandomRemindString(isGroup)
                     .replace("{type}", name)
                     .replace("{cmd}", cmd);
-
-            //进行变量的替换
-            result = varsReplace(result, type, mirai, isGroup);
 
             //如果为群聊则更新 fromGroup 否则更新 fromId
             if (isGroup) {
@@ -60,6 +57,9 @@ public class Remind {
                 mirai.fromGroup = 0;
                 mirai.fromId = targetId;
             }
+
+            //进行变量的替换
+            result = varsReplace(result, type, botName, mirai, isGroup);
 
             mirai.sendMessage(result);
         }
@@ -74,9 +74,13 @@ public class Remind {
      * @param isGroup 是否为群聊
      * @return 返回替换后的文案
      */
-    private static String varsReplace(String content, String type, Mirai mirai, boolean isGroup) {
+    private static String varsReplace(String content, String type, String botName,
+                                      Mirai mirai, boolean isGroup) {
         long targetId = mirai.fromId;
         if (isGroup) targetId = mirai.fromGroup;
+
+        //替换为机器人名字
+        content = content.replace("{botName}", botName);
 
         //替换为用户昵称，群聊下为空
         String nick = "";

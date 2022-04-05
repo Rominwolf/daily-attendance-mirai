@@ -3,6 +3,7 @@ package ink.wsm.mirai.daily_attendance_v2.cores.data;
 import ink.wsm.mirai.daily_attendance_v2.cores.S;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -23,6 +24,9 @@ public class General {
         public static String continuous = ".continuous";
         public static String id = ".id";
         public static String amount = ".amount";
+
+        public static String whitelist = ".whitelist";
+        public static String active = ".active";
     }
 
     /**
@@ -63,6 +67,16 @@ public class General {
      */
     public static Set<?> getKeysList(String key) {
         return S.Data.generalYaml.getKey(key);
+    }
+
+    /**
+     * 获取指定路径的列表
+     *
+     * @param key 键路径
+     * @return 返回结果（默认：已初始化的 List）
+     */
+    public static List<?> getList(String key) {
+        return S.Data.generalYaml.getList(key);
     }
 
     /**

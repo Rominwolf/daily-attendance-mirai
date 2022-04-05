@@ -25,10 +25,10 @@ public final class Plugin extends JavaPlugin {
         Mirai.logger = getLogger();
         Mirai.createLog("info", "插件已加载！");
 
-        S.Data.dataFolder = INSTANCE.getDataFolder().getPath() + "\\";
-        S.Data.configFolder = INSTANCE.getConfigFolder().getPath() + "\\";
-        S.Data.userFolder = S.Data.dataFolder + "users\\";
-        S.Data.groupFolder = S.Data.dataFolder + "groups\\";
+        S.Data.dataFolder = INSTANCE.getDataFolder().getPath() + "/";
+        S.Data.configFolder = INSTANCE.getConfigFolder().getPath() + "/";
+        S.Data.userFolder = S.Data.dataFolder + "users/";
+        S.Data.groupFolder = S.Data.dataFolder + "groups/";
 
         S.Data.generalYaml = new Yamler(S.Data.configFolder + "general.yml");
         S.Data.globalYaml = new Yamler(S.Data.dataFolder + "global.yml");
