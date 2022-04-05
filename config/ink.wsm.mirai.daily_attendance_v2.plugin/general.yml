@@ -23,20 +23,24 @@ nap:
       id: "score" # 资源ID
       amount: 1 # 获取的数量
       rarity: 0 # 稀有度（越大表示越难以获得，从0开始）
-    "0-42":
+    "0-40":
       id: "score"
       amount: 1
       rarity: 0
-    "42-90":
+    "40-90":
       id: "score"
       amount: 2
       rarity: 1
-    "90-98":
+    "90-96":
       id: "score"
       amount: 3
       rarity: 2
-    "98-100":
+    "96-98":
       id: "candle"
+      amount: 1
+      rarity: 3
+    "98-100":
+      id: "paper"
       amount: 1
       rarity: 3
 
@@ -52,12 +56,18 @@ sleep:
     month: #连续打卡1月
       id: "dice"
       amount: 1
+  whitelist: #白名单列表
+    active: #不被晚安打卡活跃检测的消息
+      - "/da use 1"
+      - "/sb shop"
+      - "/sb shop 21"
+      - "/sb buy 21"
 
 
 # 运动打卡相关
 run:
   status: true #运动打卡是否开启
-  check: 23 #每日检测步数的时间（小时）
+  check: "23:50" #每日检测步数的时间（小时:分钟）
   continuous: #连续打卡的奖励列表
     week: #每连续打卡7天
       id: "rocker" #奖励ID
